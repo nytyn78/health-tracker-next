@@ -1,0 +1,6 @@
+{
+  "name": "Health Tracker Lab",
+  "short_name": "HealthLab",
+  "start_url": "./index.html",
+  "display": "standalone"
+}

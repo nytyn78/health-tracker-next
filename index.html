@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Health Tracker Next</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Health Tracker (Lab)</h1>
+
+<section>
+<h2>Add Meal</h2>
+<input id="mealName" placeholder="Food name">
+<input id="mealCalories" type="number" placeholder="Calories">
+<button id="addMeal">Add Meal</button>
+</section>
+
+<section>
+<h2>Add Weight</h2>
+<input id="weightInput" type="number" placeholder="Weight (kg)">
+<button id="addWeight">Add Weight</button>
+</section>
+
+<section>
+<h2>Today</h2>
+<div>Total Calories: <span id="totalCalories">0</span></div>
+</section>
+
+<section>
+<h2>Metabolic Feedback</h2>
+<div id="metabolic"></div>
+</section>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
