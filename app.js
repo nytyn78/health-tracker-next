@@ -9,9 +9,14 @@ function refresh(){
  renderCalories(calories)
 
  if(state.weights.length >= 7){
-   const trend = weightTrend(state.weights)
-   renderMetabolic("Trend weight: " + trend.toFixed(2))
- }
+
+ const trend = weightTrend(state.weights)
+
+ renderMetabolic(
+   "7-day trend weight: " + trend.toFixed(2) + " kg"
+ )
+
+}
 
 }
 
