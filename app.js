@@ -47,7 +47,10 @@ document.getElementById("addMeal").onclick = () => {
 document.getElementById("addWeight").onclick = () => {
  const w = Number(document.getElementById("weightInput").value)
 
- state.weights.push(w)
+ state.weights.push({
+  weight: w,
+  date: new Date().toISOString().slice(0,10)
+})
 
  refresh()
 }
