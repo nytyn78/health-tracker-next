@@ -15,7 +15,7 @@ export function weightTrend(weights){
 
  const slice = weights.slice(-7)
 
- const avg = slice.reduce((a,b)=>a+b,0) / 7
+ const avg = slice.reduce((a,b)=>a + b.weight,0) / 7
 
  return avg
 }
