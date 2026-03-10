@@ -10,7 +10,14 @@ export function movingAverage(arr, window=7){
 }
 
 export function weightTrend(weights){
- return movingAverage(weights,7)
+
+ if(weights.length < 7) return null
+
+ const slice = weights.slice(-7)
+
+ const avg = slice.reduce((a,b)=>a+b,0) / 7
+
+ return avg
 }
 
 export function maintenanceEstimate(avgCalories, weeklyChange){
