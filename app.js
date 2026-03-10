@@ -18,8 +18,8 @@ function refresh(){
 
  if(state.weights.length >= 14){
 
-   const first = state.weights[state.weights.length - 14]
-   const last = state.weights[state.weights.length - 1]
+   const first = state.weights[state.weights.length - 14].weight
+const last = state.weights[state.weights.length - 1].weight
 
    const weeklyChange = (last - first) / 2
 
