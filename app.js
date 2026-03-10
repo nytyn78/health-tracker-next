@@ -30,6 +30,7 @@ function refresh(){
 
  renderMetabolic(text)
 
+localStorage.setItem("healthTracker", JSON.stringify(state))
 }
 
 
