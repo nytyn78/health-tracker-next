@@ -23,21 +23,30 @@ function refresh(){
 
    const weeklyChange = (last - first) / 2
 
-   const maintenance = maintenanceEstimate(calories, weeklyChange)
+   const maintenance =
+   maintenanceEstimate(calories, weeklyChange)
 
    text += "\n\nEstimated maintenance: " +
-   Math.round(maintenance) + " kcal/day"
+           Math.round(maintenance) +
+           " kcal/day"
  }
 
  renderMetabolic(text)
 
- localStorage.setItem("healthTracker", JSON.stringify(state))
+ localStorage.setItem(
+ "healthTracker",
+ JSON.stringify(state)
+ )
+
 }
 
 document.getElementById("addMeal").onclick = () => {
 
- const name = document.getElementById("mealName").value
- const cal = Number(document.getElementById("mealCalories").value)
+ const name =
+ document.getElementById("mealName").value
+
+ const cal =
+ Number(document.getElementById("mealCalories").value)
 
  state.meals.push({name, calories:cal})
 
@@ -46,12 +55,18 @@ document.getElementById("addMeal").onclick = () => {
 
 document.getElementById("addWeight").onclick = () => {
 
- const w = Number(document.getElementById("weightInput").value)
+ const w =
+ Number(document.getElementById("weightInput").value)
 
  state.weights.push({
-  weight: w,
-  date: new Date().toISOString().slice(0,10)
+
+   weight:w,
+
+   date:new Date().toISOString().slice(0,10)
+
  })
 
  refresh()
 }
+
+refresh()
