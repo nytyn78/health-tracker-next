@@ -19,23 +19,23 @@ function refresh(){
  if(state.weights.length >= 14){
 
    const first = state.weights[state.weights.length - 14].weight
-const last = state.weights[state.weights.length - 1].weight
+   const last = state.weights[state.weights.length - 1].weight
 
    const weeklyChange = (last - first) / 2
 
    const maintenance = maintenanceEstimate(calories, weeklyChange)
 
-   text += "\n\nEstimated maintenance: " + Math.round(maintenance) + " kcal/day"
+   text += "\n\nEstimated maintenance: " +
+   Math.round(maintenance) + " kcal/day"
  }
 
  renderMetabolic(text)
 
-localStorage.setItem("healthTracker", JSON.stringify(state))
+ localStorage.setItem("healthTracker", JSON.stringify(state))
 }
 
-
-
 document.getElementById("addMeal").onclick = () => {
+
  const name = document.getElementById("mealName").value
  const cal = Number(document.getElementById("mealCalories").value)
 
@@ -45,12 +45,13 @@ document.getElementById("addMeal").onclick = () => {
 }
 
 document.getElementById("addWeight").onclick = () => {
+
  const w = Number(document.getElementById("weightInput").value)
 
  state.weights.push({
   weight: w,
   date: new Date().toISOString().slice(0,10)
-})
+ })
 
  refresh()
 }
