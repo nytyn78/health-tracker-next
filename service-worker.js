@@ -1,23 +1,25 @@
-const CACHE = 'health-tracker-v5';
-const ASSETS = ['/', '/index.html', '/manifest.json', '/icon-192.png', '/icon-512.png'];
+const CACHE_NAME = "health-tracker-v1"
 
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
-});
+const urlsToCache = [
+ "/",
+ "/index.html",
+ "/style.css",
+ "/app.js",
+ "/analytics.js",
+ "/state.js",
+ "/ui.js"
+]
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
-});
+self.addEventListener("install", event=>{
+ event.waitUntil(
+  caches.open(CACHE_NAME)
+   .then(cache=>cache.addAll(urlsToCache))
+ )
+})
 
-self.addEventListener('fetch', e => {
-  // Network-first — always fetch fresh, fallback to cache only if offline
-  e.respondWith(
-    fetch(e.request, {cache: 'no-cache'}).catch(() => caches.match(e.request))
-  );
-});
+self.addEventListener("fetch", event=>{
+ event.respondWith(
+  caches.match(event.request)
+   .then(res=>res || fetch(event.request))
+ )
+})
