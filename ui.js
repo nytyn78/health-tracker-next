@@ -1,8 +1,8 @@
-
-export function renderCalories(val){
- document.getElementById("totalCalories").textContent = val
+export function renderCalories(calories){
+ document.getElementById("calories").innerText =
+  "Total Calories: " + calories
 }
 
 export function renderMetabolic(text){
- document.getElementById("metabolic").textContent = text
+ document.getElementById("metabolic").innerText = text
 }
