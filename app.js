@@ -51,7 +51,6 @@ function refresh(){
  renderWeightChart(state.weights)
 
  localStorage.setItem("healthTracker", JSON.stringify(state))
-
 }
 
 document.getElementById("addCalories").onclick = () => {
@@ -66,14 +65,10 @@ document.getElementById("addCalories").onclick = () => {
  if(existing){
   existing.calories = c
  } else {
-  state.calories.push({
-   calories:c,
-   date:today
-  })
+  state.calories.push({calories:c,date:today})
  }
 
  refresh()
-
 }
 
 document.getElementById("addWeight").onclick = () => {
@@ -87,7 +82,37 @@ document.getElementById("addWeight").onclick = () => {
  })
 
  refresh()
+}
 
+document.getElementById("simulate").onclick = () => {
+
+ state.weights = [
+{weight:80,date:"2026-03-01"},
+{weight:79.6,date:"2026-03-02"},
+{weight:79.2,date:"2026-03-03"},
+{weight:78.8,date:"2026-03-04"},
+{weight:78.4,date:"2026-03-05"},
+{weight:78,date:"2026-03-06"},
+{weight:77.6,date:"2026-03-07"},
+{weight:77.2,date:"2026-03-08"},
+{weight:76.8,date:"2026-03-09"},
+{weight:76.4,date:"2026-03-10"},
+{weight:76,date:"2026-03-11"},
+{weight:75.8,date:"2026-03-12"},
+{weight:75.4,date:"2026-03-13"}
+]
+
+ state.calories = [
+{calories:2400,date:"2026-03-07"},
+{calories:2300,date:"2026-03-08"},
+{calories:2200,date:"2026-03-09"},
+{calories:2100,date:"2026-03-10"},
+{calories:2000,date:"2026-03-11"},
+{calories:2100,date:"2026-03-12"},
+{calories:2200,date:"2026-03-13"}
+]
+
+ refresh()
 }
 
 refresh()

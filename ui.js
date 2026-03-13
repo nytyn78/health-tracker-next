@@ -19,8 +19,8 @@ export function renderDashboard(today, avg, maintenance, balance){
 
   document.getElementById("balance").textContent =
   "Energy balance: " + sign + Math.round(balance) + " kcal"
- }
 
+ }
 }
 
 export function renderMetabolic(text){
@@ -40,7 +40,6 @@ export function renderCalorieHistory(calories){
   list.appendChild(li)
 
  })
-
 }
 
 export function renderWeightHistory(weights){
@@ -56,7 +55,6 @@ export function renderWeightHistory(weights){
   list.appendChild(li)
 
  })
-
 }
 
 export function renderWeightChart(weights){
@@ -81,5 +79,4 @@ export function renderWeightChart(weights){
    }]
   }
  })
-
 }
