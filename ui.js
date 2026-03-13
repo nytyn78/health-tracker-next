@@ -14,15 +14,11 @@ document.getElementById("balance").innerText =
 
 }
 
-
-
 export function renderMetabolic(text){
 
 document.getElementById("metabolic").innerText=text
 
 }
-
-
 
 export function renderCalorieHistory(calories){
 
@@ -62,8 +58,6 @@ el.appendChild(li)
 
 }
 
-
-
 export function renderWeightHistory(weights){
 
 const el=document.getElementById("weightHistory")
@@ -102,17 +96,16 @@ el.appendChild(li)
 
 }
 
-
-
 export function renderWeightChart(weights){
 
 const canvas=document.getElementById("chart")
-
 if(!canvas) return
+
+canvas.style.height="320px"
 
 const ctx=canvas.getContext("2d")
 
-const labels=weights.map(w=>w.date)
+const labels=weights.map(w=>w.date.slice(5))
 const data=weights.map(w=>w.weight)
 
 if(window.weightChart)
@@ -127,7 +120,8 @@ label:"Weight",
 data:data,
 borderColor:"#2563eb",
 borderWidth:3,
-tension:0.35
+tension:0.35,
+pointRadius:3
 }]
 },
 options:{
@@ -135,6 +129,18 @@ responsive:true,
 maintainAspectRatio:false,
 plugins:{
 legend:{display:false}
+},
+scales:{
+x:{
+ticks:{
+maxRotation:0,
+autoSkip:true,
+maxTicksLimit:6
+}
+},
+y:{
+beginAtZero:false
+}
 }
 }
 })
