@@ -1,21 +1,24 @@
 let chart
 
-export function renderDashboard(today, maintenance, balance){
+export function renderDashboard(today, avg, maintenance, balance){
 
  document.getElementById("caloriesToday").textContent =
  "Calories today: " + today
 
+ document.getElementById("calories7").textContent =
+ "7-day average calories: " + Math.round(avg)
+
  if(maintenance){
- document.getElementById("maintenance").textContent =
- "Estimated maintenance: " + Math.round(maintenance) + " kcal"
+  document.getElementById("maintenance").textContent =
+  "Estimated maintenance: " + Math.round(maintenance) + " kcal"
  }
 
  if(balance != null){
 
- const sign = balance > 0 ? "+" : ""
+  const sign = balance > 0 ? "+" : ""
 
- document.getElementById("balance").textContent =
- "Energy balance: " + sign + Math.round(balance) + " kcal"
+  document.getElementById("balance").textContent =
+  "Energy balance: " + sign + Math.round(balance) + " kcal"
 
  }
 
@@ -35,11 +38,11 @@ export function renderWeightHistory(weights){
 
  weights.slice().reverse().forEach(w=>{
 
- const li = document.createElement("li")
+  const li = document.createElement("li")
 
- li.textContent = w.weight + " kg — " + w.date
+  li.textContent = w.weight + " kg — " + w.date
 
- list.appendChild(li)
+  list.appendChild(li)
 
  })
 
