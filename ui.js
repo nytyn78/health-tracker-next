@@ -88,7 +88,6 @@ const ordered=[...weights]
 
 const labels=ordered.map(w=>w.date.slice(5))
 
-// ensure numeric values
 const data=ordered.map(w=>Number(w.weight))
 
 if(window.weightChart)
