@@ -1,38 +1,42 @@
-export function avgCalories(calories){
+export function avgCalories(cal){
 
- if(calories.length === 0) return 0
+if(cal.length===0) return 0
 
- const slice = calories.slice(-7)
+const slice = cal.slice(-7)
 
- return slice.reduce((a,b)=>a + b.calories,0) / slice.length
+return slice.reduce((a,b)=>a+b.calories,0)/slice.length
 }
 
-export function weightTrend(weights){
+export function weightTrend(w){
 
- if(weights.length < 7) return null
+if(w.length<7) return null
 
- const slice = weights.slice(-7)
+const slice = w.slice(-7)
 
- return slice.reduce((a,b)=>a + b.weight,0) / slice.length
+return slice.reduce((a,b)=>a+b.weight,0)/7
 }
 
-export function maintenanceEstimate(avgCalories, weights){
+export function rollingTDEE(avg,w,prev){
 
- if(weights.length < 14) return null
+if(w.length<8) return prev
 
- const first = weights[weights.length - 14].weight
- const last = weights[weights.length - 1].weight
+const w1 = w[w.length-8].weight
+const w2 = w[w.length-1].weight
 
- const change = last - first
+const change = (w2-w1)/7
 
- const energy = (change * 7700) / 14
+const energy = change*7700
 
- return avgCalories - energy
+const estimate = avg-energy
+
+if(!prev) return estimate
+
+return 0.8*prev + 0.2*estimate
 }
 
-export function energyBalance(todayCalories, maintenance){
+export function energyBalance(cal,maint){
 
- if(!maintenance) return null
+if(!maint) return null
 
- return todayCalories - maintenance
+return cal-maint
 }
