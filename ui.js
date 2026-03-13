@@ -105,8 +105,13 @@ canvas.style.height="320px"
 
 const ctx=canvas.getContext("2d")
 
-const labels=weights.map(w=>w.date.slice(5))
-const data=weights.map(w=>w.weight)
+const ordered=[...weights].sort((a,b)=>a.date.localeCompare(b.date))
+
+const labels=ordered.map(w=>w.date.slice(5))
+const data=ordered.map(w=>w.weight)
+
+const minWeight=Math.min(...data)-0.3
+const maxWeight=Math.max(...data)+0.3
 
 if(window.weightChart)
 window.weightChart.destroy()
@@ -131,15 +136,9 @@ plugins:{
 legend:{display:false}
 },
 scales:{
-x:{
-ticks:{
-maxRotation:0,
-autoSkip:true,
-maxTicksLimit:6
-}
-},
 y:{
-beginAtZero:false
+min:minWeight,
+max:maxWeight
 }
 }
 }
