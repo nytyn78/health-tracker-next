@@ -15,9 +15,7 @@ document.getElementById("balance").innerText =
 }
 
 export function renderMetabolic(text){
-
 document.getElementById("metabolic").innerText=text
-
 }
 
 export function renderCalorieHistory(calories){
@@ -34,14 +32,12 @@ const edit=document.createElement("button")
 edit.innerText="edit"
 
 edit.onclick=()=>{
-
 const v=prompt("Edit calories",c.calories)
 
 if(v!==null){
 c.calories=Number(v)
 location.reload()
 }
-
 }
 
 li.appendChild(edit)
@@ -65,14 +61,12 @@ const edit=document.createElement("button")
 edit.innerText="edit"
 
 edit.onclick=()=>{
-
 const v=prompt("Edit weight",w.weight)
 
 if(v!==null){
 w.weight=Number(v)
 location.reload()
 }
-
 }
 
 li.appendChild(edit)
@@ -87,22 +81,18 @@ export function renderWeightChart(weights){
 const canvas=document.getElementById("chart")
 if(!canvas) return
 
-canvas.style.height="320px"
-
 const ctx=canvas.getContext("2d")
 
-// ensure correct chronological order
-const ordered=[...weights].sort((a,b)=>new Date(a.date)-new Date(b.date))
+const ordered=[...weights]
+.sort((a,b)=>new Date(a.date)-new Date(b.date))
 
 const labels=ordered.map(w=>w.date.slice(5))
-const data=ordered.map(w=>w.weight)
 
-const min=Math.min(...data)-0.3
-const max=Math.max(...data)+0.3
+// ensure numeric values
+const data=ordered.map(w=>Number(w.weight))
 
-if(window.weightChart){
+if(window.weightChart)
 window.weightChart.destroy()
-}
 
 window.weightChart=new Chart(ctx,{
 type:"line",
@@ -125,8 +115,7 @@ legend:{display:false}
 },
 scales:{
 y:{
-min:min,
-max:max
+beginAtZero:false
 }
 }
 }
