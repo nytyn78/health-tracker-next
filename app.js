@@ -1,7 +1,13 @@
 import {state} from './state.js'
-import {totalCalories, weightTrend, maintenanceEstimate} from './analytics.js'
 import {
-renderCalories,
+avgCalories,
+weightTrend,
+maintenanceEstimate,
+energyBalance
+} from './analytics.js'
+
+import {
+renderDashboard,
 renderMetabolic,
 renderWeightHistory,
 renderWeightChart
@@ -10,39 +16,36 @@ renderWeightChart
 
 function refresh(){
 
- const calories = totalCalories(state.meals)
+ const caloriesToday =
+ state.calories.length
+ ? state.calories[state.calories.length-1].calories
+ : 0
 
- renderCalories(calories)
+ const avgCal = avgCalories(state.calories)
+
+ const maintenance =
+ maintenanceEstimate(avgCal, state.weights)
+
+ const balance =
+ energyBalance(caloriesToday, maintenance)
+
+ renderDashboard(caloriesToday, maintenance, balance)
 
  let text = ""
 
+ const trend = weightTrend(state.weights)
 
- if(state.weights.length >= 7){
+ if(trend){
 
-   const trend = weightTrend(state.weights)
-
-   text += "7-day trend weight: " + trend.toFixed(2) + " kg"
-
- }
-
-
- if(state.weights.length >= 14){
-
-   const first = state.weights[state.weights.length - 14].weight
-
-   const last = state.weights[state.weights.length - 1].weight
-
-   const weeklyChange = (last - first) / 2
-
-   const maintenance =
-   maintenanceEstimate(calories, weeklyChange)
-
-   text += "\n\nEstimated maintenance: " +
-           Math.round(maintenance) +
-           " kcal/day"
+ text += "7‑day trend weight: " + trend.toFixed(2) + " kg"
 
  }
 
+ if(maintenance){
+
+ text += "\nMaintenance estimate based on 14‑day weight change"
+
+ }
 
  renderMetabolic(text)
 
@@ -50,48 +53,37 @@ function refresh(){
 
  renderWeightChart(state.weights)
 
-
- localStorage.setItem(
- "healthTracker",
- JSON.stringify(state)
- )
+ localStorage.setItem("healthTracker", JSON.stringify(state))
 
 }
 
 
 
-document.getElementById("addMeal").onclick = () => {
+document.getElementById("addCalories").onclick = () => {
 
- const name =
- document.getElementById("mealName").value
+ const c = Number(document.getElementById("calorieInput").value)
 
- const cal =
- Number(document.getElementById("mealCalories").value)
-
- state.meals.push({name, calories:cal})
-
- refresh()
-
-}
-
-
-
-document.getElementById("addWeight").onclick = () => {
-
- const w =
- Number(document.getElementById("weightInput").value)
-
- state.weights.push({
-
-   weight:w,
-
-   date:new Date().toISOString().slice(0,10)
-
+ state.calories.push({
+  calories:c,
+  date:new Date().toISOString().slice(0,10)
  })
 
  refresh()
 
 }
 
+
+document.getElementById("addWeight").onclick = () => {
+
+ const w = Number(document.getElementById("weightInput").value)
+
+ state.weights.push({
+  weight:w,
+  date:new Date().toISOString().slice(0,10)
+ })
+
+ refresh()
+
+}
 
 refresh()
