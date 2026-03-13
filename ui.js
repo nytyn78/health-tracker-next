@@ -1,82 +1,114 @@
 let chart
 
-export function renderDashboard(today, avg, maintenance, balance){
+export function renderDashboard(today,avg,maint,balance){
 
- document.getElementById("caloriesToday").textContent =
- "Calories today: " + today
+document.getElementById("caloriesToday").textContent =
+"Calories today: "+today
 
- document.getElementById("calories7").textContent =
- "7-day average calories: " + Math.round(avg)
+document.getElementById("calories7").textContent =
+"7-day average calories: "+Math.round(avg)
 
- if(maintenance){
-  document.getElementById("maintenance").textContent =
-  "Estimated maintenance: " + Math.round(maintenance) + " kcal"
- }
+if(maint)
+document.getElementById("maintenance").textContent =
+"Estimated maintenance: "+Math.round(maint)
 
- if(balance !== null){
-
-  const sign = balance > 0 ? "+" : ""
-
-  document.getElementById("balance").textContent =
-  "Energy balance: " + sign + Math.round(balance) + " kcal"
-
- }
+if(balance!==null)
+document.getElementById("balance").textContent =
+"Energy balance: "+Math.round(balance)
 }
 
 export function renderMetabolic(text){
- document.getElementById("metabolic").textContent = text
+
+document.getElementById("metabolic").textContent=text
 }
 
-export function renderCalorieHistory(calories){
+export function renderCalorieHistory(cal){
 
- const list = document.getElementById("calorieHistory")
- list.innerHTML = ""
+const list=document.getElementById("calorieHistory")
 
- calories.slice().reverse().forEach(c=>{
+list.innerHTML=""
 
-  const li = document.createElement("li")
-  li.textContent = c.calories + " kcal — " + c.date
+cal.slice().reverse().forEach((c,i)=>{
 
-  list.appendChild(li)
+const li=document.createElement("li")
 
- })
+li.innerHTML=
+c.calories+" kcal — "+c.date+
+" <button data-i='"+i+"'>edit</button>"
+
+li.querySelector("button").onclick=()=>{
+
+const newCal=prompt("Calories:",c.calories)
+
+const newDate=prompt("Date:",c.date)
+
+if(newCal) c.calories=Number(newCal)
+
+if(newDate) c.date=newDate
+
+location.reload()
+
 }
 
-export function renderWeightHistory(weights){
+list.appendChild(li)
 
- const list = document.getElementById("weightHistory")
- list.innerHTML = ""
+})
+}
 
- weights.slice().reverse().forEach(w=>{
+export function renderWeightHistory(w){
 
-  const li = document.createElement("li")
-  li.textContent = w.weight + " kg — " + w.date
+const list=document.getElementById("weightHistory")
 
-  list.appendChild(li)
+list.innerHTML=""
 
- })
+w.slice().reverse().forEach((x,i)=>{
+
+const li=document.createElement("li")
+
+li.innerHTML=
+x.weight+" kg — "+x.date+
+" <button data-i='"+i+"'>edit</button>"
+
+li.querySelector("button").onclick=()=>{
+
+const newW=prompt("Weight:",x.weight)
+
+const newDate=prompt("Date:",x.date)
+
+if(newW) x.weight=Number(newW)
+
+if(newDate) x.date=newDate
+
+location.reload()
+
+}
+
+list.appendChild(li)
+
+})
 }
 
 export function renderWeightChart(weights){
 
- if(weights.length === 0) return
+if(weights.length===0) return
 
- const ctx = document.getElementById("weightChart").getContext("2d")
+const ctx=document.getElementById("weightChart")
 
- const labels = weights.map(w=>w.date)
- const data = weights.map(w=>w.weight)
+const labels=weights.map(w=>w.date)
 
- if(chart) chart.destroy()
+const data=weights.map(w=>w.weight)
 
- chart = new Chart(ctx,{
-  type:"line",
-  data:{
-   labels:labels,
-   datasets:[{
-    label:"Weight",
-    data:data,
-    tension:0.3
-   }]
-  }
- })
+if(chart) chart.destroy()
+
+chart=new Chart(ctx,{
+type:"line",
+data:{
+labels,
+datasets:[{
+label:"Weight",
+data,
+tension:0.3
+}]
+}
+})
 }
