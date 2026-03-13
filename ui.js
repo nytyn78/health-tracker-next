@@ -81,8 +81,9 @@ export function renderWeightChart(weights){
 const canvas=document.getElementById("chart")
 if(!canvas) return
 
-// reset canvas completely
-canvas.width=canvas.width
+// lock chart size so mobile layout changes don't stretch axis
+canvas.style.height="280px"
+canvas.style.maxHeight="280px"
 
 const ctx=canvas.getContext("2d")
 
@@ -91,9 +92,11 @@ const ordered=[...weights].sort((a,b)=>new Date(a.date)-new Date(b.date))
 const labels=ordered.map(w=>w.date.slice(5))
 const data=ordered.map(w=>Number(w.weight))
 
+const min=Math.min(...data)-0.2
+const max=Math.max(...data)+0.2
+
 if(window.weightChart){
 window.weightChart.destroy()
-window.weightChart=null
 }
 
 window.weightChart=new Chart(ctx,{
@@ -113,12 +116,17 @@ options:{
 responsive:true,
 maintainAspectRatio:false,
 animation:false,
+resizeDelay:200,
 plugins:{
 legend:{display:false}
 },
 scales:{
 y:{
-beginAtZero:false
+min:min,
+max:max,
+ticks:{
+stepSize:0.1
+}
 }
 }
 }
