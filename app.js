@@ -3,7 +3,7 @@ import {state} from './state.js'
 import {
 avgCalories,
 weightTrend,
-maintenanceEstimate,
+rollingTDEE,
 energyBalance
 } from './analytics.js'
 
@@ -17,76 +17,66 @@ renderCalorieHistory
 
 function refresh(){
 
- const todayCalories =
- state.calories.length
- ? state.calories[state.calories.length-1].calories
- : 0
+const today=state.calories.length?
+state.calories[state.calories.length-1].calories:0
 
- const avgCal = avgCalories(state.calories)
+const avg=avgCalories(state.calories)
 
- const maintenance =
- maintenanceEstimate(avgCal, state.weights)
+state.tdee=rollingTDEE(avg,state.weights,state.tdee)
 
- const balance =
- energyBalance(todayCalories, maintenance)
+const balance=energyBalance(today,state.tdee)
 
- renderDashboard(todayCalories, avgCal, maintenance, balance)
+renderDashboard(today,avg,state.tdee,balance)
 
- let text = ""
+let text=""
 
- const trend = weightTrend(state.weights)
+const trend=weightTrend(state.weights)
 
- if(trend){
-  text += "7-day trend weight: " + trend.toFixed(2) + " kg"
- }
+if(trend)
+text+="7-day trend weight: "+trend.toFixed(2)
 
- if(maintenance){
-  text += "\nMaintenance estimate based on 14-day weight change"
- }
+renderMetabolic(text)
 
- renderMetabolic(text)
+renderCalorieHistory(state.calories)
 
- renderCalorieHistory(state.calories)
- renderWeightHistory(state.weights)
- renderWeightChart(state.weights)
+renderWeightHistory(state.weights)
 
- localStorage.setItem("healthTracker", JSON.stringify(state))
+renderWeightChart(state.weights)
+
+localStorage.setItem("healthTracker",JSON.stringify(state))
 }
 
-document.getElementById("addCalories").onclick = () => {
+document.getElementById("addCalories").onclick=()=>{
 
- const c = Number(document.getElementById("calorieInput").value)
- if(!c) return
+const c=Number(document.getElementById("calorieInput").value)
 
- const today = new Date().toISOString().slice(0,10)
+let date=document.getElementById("calorieDate").value
 
- const existing = state.calories.find(d => d.date === today)
+if(!date)
+date=new Date().toISOString().slice(0,10)
 
- if(existing){
-  existing.calories = c
- } else {
-  state.calories.push({calories:c,date:today})
- }
+state.calories.push({calories:c,date})
 
- refresh()
+refresh()
 }
 
-document.getElementById("addWeight").onclick = () => {
+document.getElementById("addWeight").onclick=()=>{
 
- const w = Number(document.getElementById("weightInput").value)
- if(!w) return
+const w=Number(document.getElementById("weightInput").value)
 
- state.weights.push({
-  weight:w,
-  date:new Date().toISOString().slice(0,10)
- })
+let date=document.getElementById("weightDate").value
 
- refresh()
+if(!date)
+date=new Date().toISOString().slice(0,10)
+
+state.weights.push({weight:w,date})
+
+refresh()
 }
 
-document.getElementById("simulate").onclick = () => {
+document.getElementById("simulate").onclick=()=>{
 
- state.weights = [
+state.weights=[
 {weight:80,date:"2026-03-01"},
 {weight:79.6,date:"2026-03-02"},
 {weight:79.2,date:"2026-03-03"},
@@ -94,25 +84,20 @@ document.getElementById("simulate").onclick = () => {
 {weight:78.4,date:"2026-03-05"},
 {weight:78,date:"2026-03-06"},
 {weight:77.6,date:"2026-03-07"},
-{weight:77.2,date:"2026-03-08"},
-{weight:76.8,date:"2026-03-09"},
-{weight:76.4,date:"2026-03-10"},
-{weight:76,date:"2026-03-11"},
-{weight:75.8,date:"2026-03-12"},
-{weight:75.4,date:"2026-03-13"}
+{weight:77.2,date:"2026-03-08"}
 ]
 
- state.calories = [
-{calories:2400,date:"2026-03-07"},
-{calories:2300,date:"2026-03-08"},
-{calories:2200,date:"2026-03-09"},
-{calories:2100,date:"2026-03-10"},
-{calories:2000,date:"2026-03-11"},
-{calories:2100,date:"2026-03-12"},
-{calories:2200,date:"2026-03-13"}
+state.calories=[
+{calories:2400,date:"2026-03-02"},
+{calories:2300,date:"2026-03-03"},
+{calories:2200,date:"2026-03-04"},
+{calories:2100,date:"2026-03-05"},
+{calories:2000,date:"2026-03-06"},
+{calories:2100,date:"2026-03-07"},
+{calories:2200,date:"2026-03-08"}
 ]
 
- refresh()
+refresh()
 }
 
 refresh()
