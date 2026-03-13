@@ -1,4 +1,5 @@
 import {state} from './state.js'
+
 import {
 avgCalories,
 weightTrend,
@@ -29,7 +30,7 @@ function refresh(){
  const balance =
  energyBalance(caloriesToday, maintenance)
 
- renderDashboard(caloriesToday, maintenance, balance)
+ renderDashboard(caloriesToday, avgCal, maintenance, balance)
 
  let text = ""
 
@@ -37,13 +38,13 @@ function refresh(){
 
  if(trend){
 
- text += "7‑day trend weight: " + trend.toFixed(2) + " kg"
+ text += "7-day trend weight: " + trend.toFixed(2) + " kg"
 
  }
 
  if(maintenance){
 
- text += "\nMaintenance estimate based on 14‑day weight change"
+ text += "\nMaintenance estimate based on 14-day weight change"
 
  }
 
@@ -58,14 +59,13 @@ function refresh(){
 }
 
 
-
 document.getElementById("addCalories").onclick = () => {
 
  const c = Number(document.getElementById("calorieInput").value)
 
  state.calories.push({
-  calories:c,
-  date:new Date().toISOString().slice(0,10)
+ calories:c,
+ date:new Date().toISOString().slice(0,10)
  })
 
  refresh()
@@ -78,12 +78,13 @@ document.getElementById("addWeight").onclick = () => {
  const w = Number(document.getElementById("weightInput").value)
 
  state.weights.push({
-  weight:w,
-  date:new Date().toISOString().slice(0,10)
+ weight:w,
+ date:new Date().toISOString().slice(0,10)
  })
 
  refresh()
 
 }
+
 
 refresh()
