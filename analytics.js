@@ -1,42 +1,84 @@
-export function avgCalories(cal){
+export function avgCalories(calories){
 
-if(cal.length===0) return 0
+if(!calories.length) return 0
 
-const slice = cal.slice(-7)
+const last7 = calories.slice(-7)
 
-return slice.reduce((a,b)=>a+b.calories,0)/slice.length
+const sum = last7.reduce((a,b)=>a+b.calories,0)
+
+return Math.round(sum/last7.length)
+
 }
 
-export function weightTrend(w){
 
-if(w.length<7) return null
+export function weightTrend(weights){
 
-const slice = w.slice(-7)
+if(weights.length < 7) return null
 
-return slice.reduce((a,b)=>a+b.weight,0)/7
+const last7 = weights.slice(-7)
+
+const sum = last7.reduce((a,b)=>a+b.weight,0)
+
+return sum/last7.length
+
 }
 
-export function rollingTDEE(avg,w,prev){
 
-if(w.length<8) return prev
+export function regressionSlope(weights){
 
-const w1 = w[w.length-8].weight
-const w2 = w[w.length-1].weight
+if(weights.length < 7) return 0
 
-const change = (w2-w1)/7
+const data = weights.slice(-14)
 
-const energy = change*7700
+let xSum=0
+let ySum=0
+let xySum=0
+let x2Sum=0
 
-const estimate = avg-energy
+for(let i=0;i<data.length;i++){
 
-if(!prev) return estimate
+const x=i
+const y=data[i].weight
 
-return 0.8*prev + 0.2*estimate
+xSum+=x
+ySum+=y
+xySum+=x*y
+x2Sum+=x*x
+
 }
 
-export function energyBalance(cal,maint){
+const n=data.length
 
-if(!maint) return null
+const slope=(n*xySum-xSum*ySum)/(n*x2Sum-xSum*xSum)
 
-return cal-maint
+return slope
+
+}
+
+
+export function rollingTDEE(avgCalories,weights,prevTDEE){
+
+if(weights.length<7) return prevTDEE
+
+const slope = regressionSlope(weights)
+
+const weightChangePerDay = slope
+
+const energyChange = weightChangePerDay*7700
+
+const estimated = avgCalories - energyChange
+
+if(!prevTDEE) return Math.round(estimated)
+
+return Math.round(prevTDEE*0.7 + estimated*0.3)
+
+}
+
+
+export function energyBalance(today,tdee){
+
+if(!tdee) return 0
+
+return today - tdee
+
 }
