@@ -5,7 +5,6 @@ export function avgCalories(calories){
  const slice = calories.slice(-7)
 
  return slice.reduce((a,b)=>a + b.calories,0) / slice.length
-
 }
 
 export function weightTrend(weights){
@@ -15,7 +14,6 @@ export function weightTrend(weights){
  const slice = weights.slice(-7)
 
  return slice.reduce((a,b)=>a + b.weight,0) / 7
-
 }
 
 export function maintenanceEstimate(avgCalories, weights){
@@ -30,7 +28,6 @@ export function maintenanceEstimate(avgCalories, weights){
  const energy = change * 7700 / 14
 
  return avgCalories - energy
-
 }
 
 export function energyBalance(todayCalories, maintenance){
@@ -38,5 +35,4 @@ export function energyBalance(todayCalories, maintenance){
  if(!maintenance) return null
 
  return todayCalories - maintenance
-
 }

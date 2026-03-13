@@ -25,21 +25,33 @@ export function renderDashboard(today, avg, maintenance, balance){
 }
 
 export function renderMetabolic(text){
-
  document.getElementById("metabolic").textContent = text
+}
+
+export function renderCalorieHistory(calories){
+
+ const list = document.getElementById("calorieHistory")
+ list.innerHTML = ""
+
+ calories.slice().reverse().forEach(c=>{
+
+  const li = document.createElement("li")
+  li.textContent = c.calories + " kcal — " + c.date
+
+  list.appendChild(li)
+
+ })
 
 }
 
 export function renderWeightHistory(weights){
 
  const list = document.getElementById("weightHistory")
-
  list.innerHTML = ""
 
  weights.slice().reverse().forEach(w=>{
 
   const li = document.createElement("li")
-
   li.textContent = w.weight + " kg — " + w.date
 
   list.appendChild(li)
