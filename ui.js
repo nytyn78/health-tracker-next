@@ -23,17 +23,14 @@ document.getElementById("metabolic").innerText=text
 export function renderCalorieHistory(calories){
 
 const el=document.getElementById("calorieHistory")
-
 el.innerHTML=""
 
 calories.slice().reverse().forEach(c=>{
 
 const li=document.createElement("li")
-
 li.innerText=c.calories+" kcal — "+c.date
 
 const edit=document.createElement("button")
-
 edit.innerText="edit"
 
 edit.onclick=()=>{
@@ -41,17 +38,13 @@ edit.onclick=()=>{
 const v=prompt("Edit calories",c.calories)
 
 if(v!==null){
-
 c.calories=Number(v)
-
 location.reload()
-
 }
 
 }
 
 li.appendChild(edit)
-
 el.appendChild(li)
 
 })
@@ -61,17 +54,14 @@ el.appendChild(li)
 export function renderWeightHistory(weights){
 
 const el=document.getElementById("weightHistory")
-
 el.innerHTML=""
 
 weights.slice().reverse().forEach(w=>{
 
 const li=document.createElement("li")
-
 li.innerText=w.weight+" kg — "+w.date
 
 const edit=document.createElement("button")
-
 edit.innerText="edit"
 
 edit.onclick=()=>{
@@ -79,17 +69,13 @@ edit.onclick=()=>{
 const v=prompt("Edit weight",w.weight)
 
 if(v!==null){
-
 w.weight=Number(v)
-
 location.reload()
-
 }
 
 }
 
 li.appendChild(edit)
-
 el.appendChild(li)
 
 })
@@ -105,16 +91,18 @@ canvas.style.height="320px"
 
 const ctx=canvas.getContext("2d")
 
-const ordered=[...weights].sort((a,b)=>a.date.localeCompare(b.date))
+// ensure correct chronological order
+const ordered=[...weights].sort((a,b)=>new Date(a.date)-new Date(b.date))
 
 const labels=ordered.map(w=>w.date.slice(5))
 const data=ordered.map(w=>w.weight)
 
-const minWeight=Math.min(...data)-0.3
-const maxWeight=Math.max(...data)+0.3
+const min=Math.min(...data)-0.3
+const max=Math.max(...data)+0.3
 
-if(window.weightChart)
+if(window.weightChart){
 window.weightChart.destroy()
+}
 
 window.weightChart=new Chart(ctx,{
 type:"line",
@@ -126,7 +114,7 @@ data:data,
 borderColor:"#2563eb",
 borderWidth:3,
 tension:0.35,
-pointRadius:3
+pointRadius:4
 }]
 },
 options:{
@@ -137,8 +125,8 @@ legend:{display:false}
 },
 scales:{
 y:{
-min:minWeight,
-max:maxWeight
+min:min,
+max:max
 }
 }
 }
