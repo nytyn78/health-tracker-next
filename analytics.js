@@ -13,7 +13,7 @@ export function weightTrend(weights){
 
  const slice = weights.slice(-7)
 
- return slice.reduce((a,b)=>a + b.weight,0) / 7
+ return slice.reduce((a,b)=>a + b.weight,0) / slice.length
 }
 
 export function maintenanceEstimate(avgCalories, weights){
@@ -25,7 +25,7 @@ export function maintenanceEstimate(avgCalories, weights){
 
  const change = last - first
 
- const energy = change * 7700 / 14
+ const energy = (change * 7700) / 14
 
  return avgCalories - energy
 }

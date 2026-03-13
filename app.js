@@ -15,10 +15,9 @@ renderWeightChart,
 renderCalorieHistory
 } from './ui.js'
 
-
 function refresh(){
 
- const caloriesToday =
+ const todayCalories =
  state.calories.length
  ? state.calories[state.calories.length-1].calories
  : 0
@@ -29,9 +28,9 @@ function refresh(){
  maintenanceEstimate(avgCal, state.weights)
 
  const balance =
- energyBalance(caloriesToday, maintenance)
+ energyBalance(todayCalories, maintenance)
 
- renderDashboard(caloriesToday, avgCal, maintenance, balance)
+ renderDashboard(todayCalories, avgCal, maintenance, balance)
 
  let text = ""
 
@@ -55,10 +54,11 @@ function refresh(){
 
 }
 
-
 document.getElementById("addCalories").onclick = () => {
 
  const c = Number(document.getElementById("calorieInput").value)
+ if(!c) return
+
  const today = new Date().toISOString().slice(0,10)
 
  const existing = state.calories.find(d => d.date === today)
@@ -79,6 +79,7 @@ document.getElementById("addCalories").onclick = () => {
 document.getElementById("addWeight").onclick = () => {
 
  const w = Number(document.getElementById("weightInput").value)
+ if(!w) return
 
  state.weights.push({
   weight:w,

@@ -13,13 +13,12 @@ export function renderDashboard(today, avg, maintenance, balance){
   "Estimated maintenance: " + Math.round(maintenance) + " kcal"
  }
 
- if(balance != null){
+ if(balance !== null){
 
   const sign = balance > 0 ? "+" : ""
 
   document.getElementById("balance").textContent =
   "Energy balance: " + sign + Math.round(balance) + " kcal"
-
  }
 
 }
@@ -78,7 +77,6 @@ export function renderWeightChart(weights){
    datasets:[{
     label:"Weight",
     data:data,
-    borderColor:"#2f80ed",
     tension:0.3
    }]
   }
