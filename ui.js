@@ -17,7 +17,7 @@ document.getElementById("balance").innerText =
 
 export function renderMetabolic(text){
 
-document.getElementById("metabolic").innerText = text
+document.getElementById("metabolic").innerText=text
 
 }
 
@@ -43,8 +43,14 @@ edit.onclick=()=>{
 const v=prompt("Edit calories",c.calories)
 
 if(v!==null){
+
 c.calories=Number(v)
+
+localStorage.setItem("healthTracker",
+JSON.stringify(window.state))
+
 location.reload()
+
 }
 
 }
@@ -79,8 +85,14 @@ edit.onclick=()=>{
 const v=prompt("Edit weight",w.weight)
 
 if(v!==null){
+
 w.weight=Number(v)
+
+localStorage.setItem("healthTracker",
+JSON.stringify(window.state))
+
 location.reload()
+
 }
 
 }
@@ -113,7 +125,8 @@ data:{
 labels:labels,
 datasets:[{
 label:"Weight",
-data:data
+data:data,
+tension:0.3
 }]
 }
 })
