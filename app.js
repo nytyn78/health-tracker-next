@@ -1,24 +1,35 @@
 import {state} from './state.js'
 import {totalCalories, weightTrend, maintenanceEstimate} from './analytics.js'
-import {renderCalories, renderMetabolic} from './ui.js'
+import {
+renderCalories,
+renderMetabolic,
+renderWeightHistory,
+renderWeightChart
+} from './ui.js'
+
 
 function refresh(){
 
  const calories = totalCalories(state.meals)
+
  renderCalories(calories)
 
  let text = ""
+
 
  if(state.weights.length >= 7){
 
    const trend = weightTrend(state.weights)
 
    text += "7-day trend weight: " + trend.toFixed(2) + " kg"
+
  }
+
 
  if(state.weights.length >= 14){
 
    const first = state.weights[state.weights.length - 14].weight
+
    const last = state.weights[state.weights.length - 1].weight
 
    const weeklyChange = (last - first) / 2
@@ -29,9 +40,16 @@ function refresh(){
    text += "\n\nEstimated maintenance: " +
            Math.round(maintenance) +
            " kcal/day"
+
  }
 
+
  renderMetabolic(text)
+
+ renderWeightHistory(state.weights)
+
+ renderWeightChart(state.weights)
+
 
  localStorage.setItem(
  "healthTracker",
@@ -39,6 +57,8 @@ function refresh(){
  )
 
 }
+
+
 
 document.getElementById("addMeal").onclick = () => {
 
@@ -51,7 +71,10 @@ document.getElementById("addMeal").onclick = () => {
  state.meals.push({name, calories:cal})
 
  refresh()
+
 }
+
+
 
 document.getElementById("addWeight").onclick = () => {
 
@@ -67,6 +90,8 @@ document.getElementById("addWeight").onclick = () => {
  })
 
  refresh()
+
 }
+
 
 refresh()

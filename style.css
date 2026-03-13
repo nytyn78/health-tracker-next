@@ -25,4 +25,8 @@ input{
 button{
  padding:10px 15px;
  margin-left:5px;
+ background:#2f80ed;
+ color:white;
+ border:none;
+ border-radius:6px;
 }

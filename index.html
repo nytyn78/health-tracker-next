@@ -4,34 +4,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health Tracker</title>
+
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
 
-<h1>Health Tracker (Lab)</h1>
+<h1>Health Tracker</h1>
 
 <div class="card">
 <h2>Add Meal</h2>
+
 <input id="mealName" placeholder="Food name">
 <input id="mealCalories" type="number" placeholder="Calories">
+
 <button id="addMeal">Add Meal</button>
+
 </div>
+
 
 <div class="card">
 <h2>Add Weight</h2>
+
 <input id="weightInput" type="number" placeholder="Weight">
+
 <button id="addWeight">Add Weight</button>
+
 </div>
+
 
 <div class="card">
 <h2>Today</h2>
+
 <p id="calories">Total Calories: 0</p>
+
 </div>
 
+
 <div class="card">
+
 <h2>Metabolic Feedback</h2>
+
 <p id="metabolic"></p>
+
 </div>
+
+
+<div class="card">
+
+<h2>Weight History</h2>
+
+<ul id="weightHistory"></ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>Weight Chart</h2>
+
+<canvas id="weightChart"></canvas>
+
+</div>
+
 
 <script type="module" src="app.js"></script>
 
