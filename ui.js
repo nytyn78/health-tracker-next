@@ -48,11 +48,6 @@ if(v!==null){
 
 c.calories = Number(v)
 
-localStorage.setItem(
-"healthTracker",
-JSON.stringify(window.state)
-)
-
 location.reload()
 
 }
@@ -93,11 +88,6 @@ if(v!==null){
 
 w.weight = Number(v)
 
-localStorage.setItem(
-"healthTracker",
-JSON.stringify(window.state)
-)
-
 location.reload()
 
 }
@@ -128,17 +118,18 @@ const labels = weights.map(w=>w.date)
 
 const data = weights.map(w=>w.weight)
 
-if(window.chart){
-window.chart.destroy()
+if(window.weightChart){
+window.weightChart.destroy()
 }
 
-window.chart = new Chart(ctx,{
+window.weightChart = new Chart(ctx,{
 type:"line",
 data:{
 labels:labels,
 datasets:[{
 label:"Weight",
 data:data,
+borderColor:"#2563eb",
 borderWidth:3,
 tension:0.35,
 fill:false
@@ -148,7 +139,9 @@ options:{
 responsive:true,
 maintainAspectRatio:false,
 plugins:{
-legend:{display:false}
+legend:{
+display:false
+}
 },
 scales:{
 y:{
