@@ -81,7 +81,8 @@ export function renderWeightChart(weights){
 const canvas=document.getElementById("chart")
 if(!canvas) return
 
-canvas.style.height="320px"
+// reset canvas completely
+canvas.width=canvas.width
 
 const ctx=canvas.getContext("2d")
 
@@ -90,11 +91,10 @@ const ordered=[...weights].sort((a,b)=>new Date(a.date)-new Date(b.date))
 const labels=ordered.map(w=>w.date.slice(5))
 const data=ordered.map(w=>Number(w.weight))
 
-const min=Math.min(...data)-0.2
-const max=Math.max(...data)+0.2
-
-if(window.weightChart)
+if(window.weightChart){
 window.weightChart.destroy()
+window.weightChart=null
+}
 
 window.weightChart=new Chart(ctx,{
 type:"line",
@@ -112,16 +112,13 @@ pointRadius:4
 options:{
 responsive:true,
 maintainAspectRatio:false,
+animation:false,
 plugins:{
 legend:{display:false}
 },
 scales:{
 y:{
-min:min,
-max:max,
-ticks:{
-stepSize:0.1
-}
+beginAtZero:false
 }
 }
 }
