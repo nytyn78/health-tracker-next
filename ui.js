@@ -4,6 +4,7 @@ export function renderCalories(calories){
 
  document.getElementById("calories").textContent =
  "Total Calories: " + calories
+
 }
 
 
@@ -11,6 +12,7 @@ export function renderMetabolic(text){
 
  document.getElementById("metabolic").textContent =
  text
+
 }
 
 
@@ -20,14 +22,15 @@ export function renderWeightHistory(weights){
 
  list.innerHTML = ""
 
- weights.slice().reverse().forEach(w=>{
+ if(!weights || weights.length === 0) return
 
- const li = document.createElement("li")
+ weights.slice().reverse().forEach(w => {
 
- li.textContent =
- w.weight + " kg — " + w.date
+  const li = document.createElement("li")
 
- list.appendChild(li)
+  li.textContent = w.weight + " kg — " + w.date
+
+  list.appendChild(li)
 
  })
 
@@ -36,25 +39,43 @@ export function renderWeightHistory(weights){
 
 export function renderWeightChart(weights){
 
- const ctx =
- document.getElementById("weightChart")
+ if(!weights || weights.length === 0) return
 
- const labels = weights.map(w=>w.date)
+ const canvas = document.getElementById("weightChart")
 
- const data = weights.map(w=>w.weight)
+ const ctx = canvas.getContext("2d")
+
+ const labels = weights.map(w => w.date)
+
+ const data = weights.map(w => w.weight)
 
  if(chart) chart.destroy()
 
  chart = new Chart(ctx,{
-  type:"line",
-  data:{
-   labels:labels,
-   datasets:[{
-    label:"Weight",
-    data:data,
-    borderColor:"#2f80ed",
-    fill:false
+  type: "line",
+  data: {
+   labels: labels,
+   datasets: [{
+    label: "Weight",
+    data: data,
+    borderColor: "#2f80ed",
+    backgroundColor: "rgba(47,128,237,0.1)",
+    tension: 0.3,
+    fill: true
    }]
+  },
+  options:{
+   responsive: true,
+   plugins:{
+    legend:{
+     display:true
+    }
+   },
+   scales:{
+    y:{
+     beginAtZero:false
+    }
+   }
   }
  })
 
