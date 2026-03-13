@@ -18,7 +18,7 @@ document.getElementById("balance").innerText =
 
 export function renderMetabolic(text){
 
-document.getElementById("metabolic").innerText = text
+document.getElementById("metabolic").innerText=text
 
 }
 
@@ -26,27 +26,27 @@ document.getElementById("metabolic").innerText = text
 
 export function renderCalorieHistory(calories){
 
-const el = document.getElementById("calorieHistory")
+const el=document.getElementById("calorieHistory")
 
-el.innerHTML = ""
+el.innerHTML=""
 
 calories.slice().reverse().forEach(c=>{
 
-const li = document.createElement("li")
+const li=document.createElement("li")
 
-li.innerText = c.calories+" kcal — "+c.date
+li.innerText=c.calories+" kcal — "+c.date
 
-const edit = document.createElement("button")
+const edit=document.createElement("button")
 
-edit.innerText = "edit"
+edit.innerText="edit"
 
-edit.onclick = ()=>{
+edit.onclick=()=>{
 
-const v = prompt("Edit calories",c.calories)
+const v=prompt("Edit calories",c.calories)
 
 if(v!==null){
 
-c.calories = Number(v)
+c.calories=Number(v)
 
 location.reload()
 
@@ -66,27 +66,27 @@ el.appendChild(li)
 
 export function renderWeightHistory(weights){
 
-const el = document.getElementById("weightHistory")
+const el=document.getElementById("weightHistory")
 
-el.innerHTML = ""
+el.innerHTML=""
 
 weights.slice().reverse().forEach(w=>{
 
-const li = document.createElement("li")
+const li=document.createElement("li")
 
-li.innerText = w.weight+" kg — "+w.date
+li.innerText=w.weight+" kg — "+w.date
 
-const edit = document.createElement("button")
+const edit=document.createElement("button")
 
-edit.innerText = "edit"
+edit.innerText="edit"
 
-edit.onclick = ()=>{
+edit.onclick=()=>{
 
-const v = prompt("Edit weight",w.weight)
+const v=prompt("Edit weight",w.weight)
 
 if(v!==null){
 
-w.weight = Number(v)
+w.weight=Number(v)
 
 location.reload()
 
@@ -106,23 +106,19 @@ el.appendChild(li)
 
 export function renderWeightChart(weights){
 
-const canvas = document.getElementById("chart")
+const canvas=document.getElementById("chart")
 
 if(!canvas) return
 
-canvas.style.height = "320px"
+const ctx=canvas.getContext("2d")
 
-const ctx = canvas.getContext("2d")
+const labels=weights.map(w=>w.date)
+const data=weights.map(w=>w.weight)
 
-const labels = weights.map(w=>w.date)
-
-const data = weights.map(w=>w.weight)
-
-if(window.weightChart){
+if(window.weightChart)
 window.weightChart.destroy()
-}
 
-window.weightChart = new Chart(ctx,{
+window.weightChart=new Chart(ctx,{
 type:"line",
 data:{
 labels:labels,
@@ -131,22 +127,14 @@ label:"Weight",
 data:data,
 borderColor:"#2563eb",
 borderWidth:3,
-tension:0.35,
-fill:false
+tension:0.35
 }]
 },
 options:{
 responsive:true,
 maintainAspectRatio:false,
 plugins:{
-legend:{
-display:false
-}
-},
-scales:{
-y:{
-beginAtZero:false
-}
+legend:{display:false}
 }
 }
 })
