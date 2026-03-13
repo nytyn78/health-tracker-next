@@ -15,11 +15,13 @@ document.getElementById("balance").innerText =
 }
 
 
+
 export function renderMetabolic(text){
 
 document.getElementById("metabolic").innerText=text
 
 }
+
 
 
 export function renderCalorieHistory(calories){
@@ -46,9 +48,6 @@ if(v!==null){
 
 c.calories=Number(v)
 
-localStorage.setItem("healthTracker",
-JSON.stringify(window.state))
-
 location.reload()
 
 }
@@ -62,6 +61,7 @@ el.appendChild(li)
 })
 
 }
+
 
 
 export function renderWeightHistory(weights){
@@ -88,9 +88,6 @@ if(v!==null){
 
 w.weight=Number(v)
 
-localStorage.setItem("healthTracker",
-JSON.stringify(window.state))
-
 location.reload()
 
 }
@@ -104,6 +101,7 @@ el.appendChild(li)
 })
 
 }
+
 
 
 export function renderWeightChart(weights){
@@ -123,11 +121,17 @@ window.chart=new Chart(ctx,{
 type:"line",
 data:{
 labels:labels,
-datasets:[{
+datasets:[
+{
 label:"Weight",
 data:data,
 tension:0.3
-}]
+}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false
 }
 })
 
