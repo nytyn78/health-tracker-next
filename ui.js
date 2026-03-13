@@ -106,32 +106,36 @@ el.appendChild(li)
 
 export function renderWeightChart(weights){
 
-const canvas=document.getElementById("chart")
+const canvas = document.getElementById("chart")
+if(!canvas) return
 
-const ctx=canvas.getContext("2d")
+const ctx = canvas.getContext("2d")
 
-const labels=weights.map(w=>w.date)
-
-const data=weights.map(w=>w.weight)
+const labels = weights.map(w=>w.date)
+const data = weights.map(w=>w.weight)
 
 if(window.chart)
 window.chart.destroy()
 
-window.chart=new Chart(ctx,{
+window.chart = new Chart(ctx,{
 type:"line",
 data:{
 labels:labels,
-datasets:[
-{
+datasets:[{
 label:"Weight",
 data:data,
+borderWidth:3,
 tension:0.3
-}
-]
+}]
 },
 options:{
 responsive:true,
-maintainAspectRatio:false
+maintainAspectRatio:false,
+plugins:{
+legend:{
+display:false
+}
+}
 }
 })
 
