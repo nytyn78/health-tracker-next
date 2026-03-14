@@ -38,19 +38,19 @@ margin:0;
 }
 
 li{
-padding:5px 0;
+padding:6px 0;
 display:flex;
 justify-content:space-between;
 align-items:center;
 }
 
-li button{
-margin-left:10px;
+.chart-container{
+position:relative;
+height:280px;
+width:100%;
 }
 
 canvas{
-display:block;
 width:100% !important;
-height:280px !important;
-max-height:280px !important;
+height:100% !important;
 }
