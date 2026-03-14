@@ -15,32 +15,31 @@ renderWeightChart,
 renderCalorieHistory
 } from './ui.js'
 
-
 function refresh(){
 
 state.weights.sort((a,b)=>a.date.localeCompare(b.date))
 state.calories.sort((a,b)=>a.date.localeCompare(b.date))
 
-const todayDate = new Date().toISOString().slice(0,10)
+const todayDate=new Date().toISOString().slice(0,10)
 
-const todayEntry = state.calories.find(c=>c.date===todayDate)
+const todayEntry=state.calories.find(c=>c.date===todayDate)
 
-const today = todayEntry ? todayEntry.calories : 0
+const today=todayEntry?todayEntry.calories:0
 
-const avg = avgCalories(state.calories)
+const avg=avgCalories(state.calories)
 
-state.tdee = rollingTDEE(avg,state.weights,state.tdee)
+state.tdee=rollingTDEE(avg,state.weights,state.tdee)
 
-const balance = energyBalance(today,state.tdee)
+const balance=energyBalance(today,state.tdee)
 
 renderDashboard(today,avg,state.tdee,balance)
 
 let text=""
 
-const trend = weightTrend(state.weights)
+const trend=weightTrend(state.weights)
 
 if(trend)
-text += "7-day trend weight: " + trend.toFixed(2)
+text+="7-day trend weight: "+trend.toFixed(2)
 
 renderMetabolic(text)
 
@@ -48,17 +47,52 @@ renderCalorieHistory(state.calories)
 
 renderWeightHistory(state.weights)
 
-renderWeightChart(state.weights)
+renderWeightChart(state.weights,state.calories)
 
 localStorage.setItem("healthTracker",JSON.stringify(state))
 
 }
 
+document.addEventListener("DOMContentLoaded",()=>{
 
+document.getElementById("addCalories").onclick=()=>{
 
-function loadTestData(){
+const c=Number(document.getElementById("calorieInput").value)
 
-state.weights = [
+let date=document.getElementById("calorieDate").value
+
+if(!date)
+date=new Date().toISOString().slice(0,10)
+
+const existing=state.calories.find(x=>x.date===date)
+
+if(existing)
+existing.calories=c
+else
+state.calories.push({calories:c,date})
+
+refresh()
+
+}
+
+document.getElementById("addWeight").onclick=()=>{
+
+const w=Number(document.getElementById("weightInput").value)
+
+let date=document.getElementById("weightDate").value
+
+if(!date)
+date=new Date().toISOString().slice(0,10)
+
+state.weights.push({weight:w,date})
+
+refresh()
+
+}
+
+document.getElementById("simulate").onclick=()=>{
+
+state.weights=[
 {weight:80,date:"2026-03-01"},
 {weight:79.9,date:"2026-03-02"},
 {weight:79.8,date:"2026-03-03"},
@@ -75,7 +109,7 @@ state.weights = [
 {weight:78.4,date:"2026-03-14"}
 ]
 
-state.calories = [
+state.calories=[
 {calories:2300,date:"2026-03-08"},
 {calories:2200,date:"2026-03-09"},
 {calories:2100,date:"2026-03-10"},
@@ -85,56 +119,11 @@ state.calories = [
 {calories:2100,date:"2026-03-14"}
 ]
 
-state.tdee = null
+state.tdee=null
 
 refresh()
 
 }
-
-
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-document.getElementById("addCalories").onclick = ()=>{
-
-const c = Number(document.getElementById("calorieInput").value)
-
-let date = document.getElementById("calorieDate").value
-
-if(!date)
-date = new Date().toISOString().slice(0,10)
-
-const existing = state.calories.find(x=>x.date===date)
-
-if(existing)
-existing.calories = c
-else
-state.calories.push({calories:c,date})
-
-refresh()
-
-}
-
-
-
-document.getElementById("addWeight").onclick = ()=>{
-
-const w = Number(document.getElementById("weightInput").value)
-
-let date = document.getElementById("weightDate").value
-
-if(!date)
-date = new Date().toISOString().slice(0,10)
-
-state.weights.push({weight:w,date})
-
-refresh()
-
-}
-
-
-
-document.getElementById("simulate").onclick = loadTestData
 
 refresh()
 
