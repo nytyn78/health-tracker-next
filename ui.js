@@ -81,9 +81,8 @@ export function renderWeightChart(weights){
 const canvas=document.getElementById("chart")
 if(!canvas) return
 
-// lock chart size so mobile layout changes don't stretch axis
-canvas.style.height="280px"
-canvas.style.maxHeight="280px"
+// lock height so browser resizing can't stretch axis
+canvas.height=300
 
 const ctx=canvas.getContext("2d")
 
@@ -113,10 +112,8 @@ pointRadius:4
 }]
 },
 options:{
-responsive:true,
-maintainAspectRatio:false,
+responsive:false,
 animation:false,
-resizeDelay:200,
 plugins:{
 legend:{display:false}
 },
