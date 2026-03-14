@@ -20,6 +20,9 @@ document.getElementById("metabolic").innerText=text
 
 }
 
+let _refresh = null
+export function setRefresh(fn){ _refresh = fn }
+
 export function renderCalorieHistory(calories){
 
 const el=document.getElementById("calorieHistory")
@@ -44,7 +47,7 @@ if(v!==null){
 
 c.calories=Number(v)
 
-location.reload()
+if(_refresh) _refresh()
 
 }
 
@@ -82,7 +85,7 @@ if(v!==null){
 
 w.weight=Number(v)
 
-location.reload()
+if(_refresh) _refresh()
 
 }
 

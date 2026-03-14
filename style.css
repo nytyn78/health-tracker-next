@@ -21,8 +21,12 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
 input{
 padding:8px;
 margin:5px 0;
-width:100%;
+width:calc(50% - 6px);
 box-sizing:border-box;
+}
+
+input[type="date"]{
+width:calc(50% - 6px);
 }
 
 button{

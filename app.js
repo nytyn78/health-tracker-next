@@ -12,7 +12,8 @@ renderDashboard,
 renderMetabolic,
 renderWeightHistory,
 renderWeightChart,
-renderCalorieHistory
+renderCalorieHistory,
+setRefresh
 } from './ui.js'
 
 function refresh(){
@@ -38,8 +39,10 @@ let text=""
 
 const trend=weightTrend(state.weights)
 
-if(trend)
-text+="7-day trend weight: "+trend.toFixed(2)
+if(trend !== null){
+const dir = trend > 0.05 ? "📈 Gaining" : trend < -0.05 ? "📉 Losing" : "➡️ Stable"
+text += dir + " — 7-day trend: "+(trend>=0?"+":"")+trend.toFixed(2)+" kg/week"
+}
 
 renderMetabolic(text)
 
@@ -55,9 +58,13 @@ localStorage.setItem("healthTracker",JSON.stringify(state))
 
 document.addEventListener("DOMContentLoaded",()=>{
 
+setRefresh(refresh)
+
 document.getElementById("addCalories").onclick=()=>{
 
 const c=Number(document.getElementById("calorieInput").value)
+
+if(!c || c<=0){ alert("Please enter a valid calorie amount."); return }
 
 let date=document.getElementById("calorieDate").value
 
@@ -78,6 +85,8 @@ refresh()
 document.getElementById("addWeight").onclick=()=>{
 
 const w=Number(document.getElementById("weightInput").value)
+
+if(!w || w<=0){ alert("Please enter a valid weight."); return }
 
 let date=document.getElementById("weightDate").value
 

@@ -15,11 +15,19 @@ export function weightTrend(weights){
 
 if(weights.length < 7) return null
 
-const last7 = weights.slice(-7)
+const data = weights.slice(-7)
 
-const sum = last7.reduce((a,b)=>a+b.weight,0)
+let xSum=0,ySum=0,xySum=0,x2Sum=0
+const n=data.length
 
-return sum/last7.length
+for(let i=0;i<n;i++){
+const x=i, y=data[i].weight
+xSum+=x; ySum+=y; xySum+=x*y; x2Sum+=x*x
+}
+
+// slope in kg/day → multiply by 7 for weekly trend
+const slope=(n*xySum-xSum*ySum)/(n*x2Sum-xSum*xSum)
+return slope*7
 
 }
 
