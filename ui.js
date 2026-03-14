@@ -88,9 +88,8 @@ const ordered=[...weights].sort((a,b)=>new Date(a.date)-new Date(b.date))
 const labels=ordered.map(w=>w.date.slice(5))
 const data=ordered.map(w=>Number(w.weight))
 
-// round axis limits
-const min=Math.floor(Math.min(...data))-1
-const max=Math.ceil(Math.max(...data))+1
+const min=Math.min(...data)
+const max=Math.max(...data)
 
 if(window.weightChart)
 window.weightChart.destroy()
@@ -116,8 +115,12 @@ legend:{display:false}
 },
 scales:{
 y:{
-min:min,
-max:max
+min:Math.floor(min10)/10,
+max:Math.ceil(max10)/10,
+ticks:{
+stepSize:0.1,
+callback:(value)=>value.toFixed(1)
+}
 }
 }
 }
