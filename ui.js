@@ -15,32 +15,43 @@ document.getElementById("balance").innerText =
 }
 
 export function renderMetabolic(text){
+
 document.getElementById("metabolic").innerText=text
+
 }
 
 export function renderCalorieHistory(calories){
 
 const el=document.getElementById("calorieHistory")
+
 el.innerHTML=""
 
 calories.slice().reverse().forEach(c=>{
 
 const li=document.createElement("li")
+
 li.innerText=c.calories+" kcal — "+c.date
 
 const edit=document.createElement("button")
+
 edit.innerText="edit"
 
 edit.onclick=()=>{
+
 const v=prompt("Edit calories",c.calories)
 
 if(v!==null){
+
 c.calories=Number(v)
+
 location.reload()
+
 }
+
 }
 
 li.appendChild(edit)
+
 el.appendChild(li)
 
 })
@@ -50,26 +61,35 @@ el.appendChild(li)
 export function renderWeightHistory(weights){
 
 const el=document.getElementById("weightHistory")
+
 el.innerHTML=""
 
 weights.slice().reverse().forEach(w=>{
 
 const li=document.createElement("li")
+
 li.innerText=w.weight+" kg — "+w.date
 
 const edit=document.createElement("button")
+
 edit.innerText="edit"
 
 edit.onclick=()=>{
+
 const v=prompt("Edit weight",w.weight)
 
 if(v!==null){
+
 w.weight=Number(v)
+
 location.reload()
+
 }
+
 }
 
 li.appendChild(edit)
+
 el.appendChild(li)
 
 })
@@ -79,20 +99,19 @@ el.appendChild(li)
 export function renderWeightChart(weights){
 
 const canvas=document.getElementById("chart")
-if(!canvas) return
 
-const ctx=canvas.getContext("2d")
+if(!canvas) return
 
 const ordered=[...weights].sort((a,b)=>new Date(a.date)-new Date(b.date))
 
 const labels=ordered.map(w=>w.date.slice(5))
+
 const data=ordered.map(w=>Number(w.weight))
 
-const min=Math.min(...data)
-const max=Math.max(...data)
+// create chart once
+if(!window.weightChart){
 
-if(window.weightChart)
-window.weightChart.destroy()
+const ctx=canvas.getContext("2d")
 
 window.weightChart=new Chart(ctx,{
 type:"line",
@@ -110,20 +129,27 @@ pointRadius:4
 options:{
 responsive:true,
 maintainAspectRatio:false,
+animation:false,
 plugins:{
 legend:{display:false}
 },
 scales:{
 y:{
-min:Math.floor(min10)/10,
-max:Math.ceil(max10)/10,
 ticks:{
-stepSize:0.1,
-callback:(value)=>value.toFixed(1)
+stepSize:0.2
 }
 }
 }
 }
 })
+
+}else{
+
+// update existing chart instead of recreating
+window.weightChart.data.labels=labels
+window.weightChart.data.datasets[0].data=data
+window.weightChart.update()
+
+}
 
 }
