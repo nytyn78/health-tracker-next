@@ -102,11 +102,11 @@ const result=[]
 
 for(let i=0;i<data.length;i++){
 
-let start=Math.max(0,i-windowSize+1)
+const start=Math.max(0,i-windowSize+1)
 
-let subset=data.slice(start,i+1)
+const subset=data.slice(start,i+1)
 
-let avg=subset.reduce((a,b)=>a+b,0)/subset.length
+const avg=subset.reduce((a,b)=>a+b,0)/subset.length
 
 result.push(avg)
 
@@ -116,7 +116,7 @@ return result
 
 }
 
-export function renderWeightChart(weights,calories=[]){
+export function renderWeightChart(weights,calories){
 
 const canvas=document.getElementById("chart")
 
@@ -128,9 +128,9 @@ const labels=ordered.map(w=>w.date.slice(5))
 
 const weightData=ordered.map(w=>Number(w.weight))
 
-const trend=movingAverage(weightData,7)
+const trendData=movingAverage(weightData,7)
 
-// align calories to weight dates
+// align calories with weight dates
 const calorieMap={}
 
 calories.forEach(c=>{
@@ -167,12 +167,12 @@ yAxisID:"y"
 {
 type:"line",
 label:"Trend",
-data:trend,
+data:trendData,
 borderColor:"#ef4444",
-borderWidth:3,
-tension:0.4,
-pointRadius:0,
 borderDash:[6,6],
+borderWidth:3,
+tension:0.35,
+pointRadius:0,
 yAxisID:"y"
 },
 
@@ -180,7 +180,7 @@ yAxisID:"y"
 type:"bar",
 label:"Calories",
 data:calorieData,
-backgroundColor:"#94a3b8",
+backgroundColor:"#cbd5f5",
 yAxisID:"y1"
 }
 
@@ -241,13 +241,15 @@ minRotation:45
 window.weightChart.data.labels=labels
 
 window.weightChart.data.datasets[0].data=weightData
-window.weightChart.data.datasets[1].data=trend
+window.weightChart.data.datasets[1].data=trendData
 window.weightChart.data.datasets[2].data=calorieData
 
 window.weightChart.options.scales.y.min=min
 window.weightChart.options.scales.y.max=max
 
 window.weightChart.update()
+
+}
 
 }
 
