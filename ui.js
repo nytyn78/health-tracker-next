@@ -105,10 +105,8 @@ if(!canvas) return
 const ordered=[...weights].sort((a,b)=>new Date(a.date)-new Date(b.date))
 
 const labels=ordered.map(w=>w.date.slice(5))
-
 const data=ordered.map(w=>Number(w.weight))
 
-// create chart once
 if(!window.weightChart){
 
 const ctx=canvas.getContext("2d")
@@ -145,7 +143,6 @@ stepSize:0.2
 
 }else{
 
-// update existing chart instead of recreating
 window.weightChart.data.labels=labels
 window.weightChart.data.datasets[0].data=data
 window.weightChart.update()
